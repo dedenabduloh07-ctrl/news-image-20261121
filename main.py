@@ -24,6 +24,9 @@ def main() -> int:
         return 1
     out_dir.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(source, target)
+    if not target.is_file() or target.stat().st_size != source.stat().st_size:
+        print(f"incomplete copy: {target}", file=sys.stderr)
+        return 1
     print(f"wrote {target} ({target.stat().st_size} bytes)")
     return 0
 
